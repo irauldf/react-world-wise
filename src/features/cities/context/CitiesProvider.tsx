@@ -34,20 +34,25 @@ export function CitiesProvider({ children }: CitiesProviderProps) {
     return () => controller.abort();
   }, []);
 
-  const getCity = useCallback(async (id: number) => {
-    const controller = new AbortController();
-    dispatch({ type: CitiesActions.LoadCityStarted });
+  const getCity = useCallback(
+    async (id: number) => {
+      if (id === state.currentCity?.id) return;
 
-    try {
-      const cityResp = await cityService.getCity(id, controller.signal);
-      dispatch({ type: CitiesActions.LoadCitySucceeded, payload: cityResp });
-    } catch (error) {
-      dispatch({
-        type: CitiesActions.LoadCityFailed,
-        payload: parseErrorMessage(error),
-      });
-    }
-  }, []);
+      const controller = new AbortController();
+      dispatch({ type: CitiesActions.LoadCityStarted });
+
+      try {
+        const cityResp = await cityService.getCity(id, controller.signal);
+        dispatch({ type: CitiesActions.LoadCitySucceeded, payload: cityResp });
+      } catch (error) {
+        dispatch({
+          type: CitiesActions.LoadCityFailed,
+          payload: parseErrorMessage(error),
+        });
+      }
+    },
+    [state.currentCity?.id],
+  );
 
   const getCityFromPosition = useCallback(async (lat: number, lng: number) => {
     const controller = new AbortController();

@@ -1,4 +1,4 @@
-import styles from "@/features/product/pages/ProductPage/ProductPage.module.css";
+import styles from "@/features/product/pages/ProductPage.module.css";
 import { PageNav } from "@/shared/components";
 
 export function PricingPage() {

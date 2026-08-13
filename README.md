@@ -28,11 +28,13 @@ A modern travel tracking application built with **React**, **TypeScript**, **Con
 - Service layer
 - Strongly typed reducers and actions
 - Loading and error boundaries
+- Lazy loading
+- Code splitting
 - CSS Modules
 
 ## Demo
 
-The project is deployed on Firebase Hosting.
+The project is deployed on **Firebase Hosting** with **CI/CD using GitHub Actions**.
 
 > **Note**
 >
@@ -93,7 +95,8 @@ shared/
 │
 layouts/
 │
-└── AppLayout/
+├── AppLayout/
+└── RouteLayout/
 ```
 
 ## Architecture
@@ -126,6 +129,21 @@ The application uses:
 
 This combination provides a lightweight alternative to external state management libraries while keeping business logic centralized.
 
+## Performance
+
+The application implements route-level lazy loading and code splitting using React lazy and Suspense.
+
+Pages are loaded dynamically to reduce the initial JavaScript bundle size. Heavy dependencies are also isolated into separate chunks when appropriate.
+
+Examples include:
+
+- CityMap — Leaflet and React Leaflet are loaded separately.
+- CityForm — React DatePicker and its related dependencies are loaded only when the form is required.
+
+A global Suspense boundary is implemented through RouteLayout, providing a loading state while lazy-loaded routes are being fetched.
+
+Bundle analysis was performed during development to identify heavy dependencies and improve the application's loading strategy.
+
 ## Technologies
 
 - React 19
@@ -151,6 +169,9 @@ During this refactoring I focused on:
 - Route protection
 - Reusable components
 - Enterprise project organization
+- Lazy loading
+- Code splitting
+- Bundle analysis and performance optimization
 
 ## Acknowledgements
 
@@ -158,4 +179,4 @@ This project started as part of **Jonas Schmedtmann's React course**.
 
 Rather than keeping the original JavaScript implementation, I redesigned the application using a scalable architecture inspired by enterprise React applications while preserving the original functionality.
 
-The main goals of this refactoring were to practice clean architecture, improve maintainability, and reinforce TypeScript best practices.
+The main goals of this refactoring were to practice clean architecture, improve maintainability, reinforce TypeScript best practices, and explore modern React performance techniques such as lazy loading and code splitting.
